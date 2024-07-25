@@ -1,0 +1,66 @@
+@model IEnumerable<OrderManagement.Models.Order>
+
+<h1>Order List</h1>
+
+<form method="get" asp-action="Index">
+    <div class="form-group">
+        <label asp-for="OrderNo">Order No</label>
+        <input type="text" asp-for="OrderNo" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="OrderDateFrom">Order Date From</label>
+        <input type="date" asp-for="OrderDateFrom" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="OrderDateTo">Order Date To</label>
+        <input type="date" asp-for="OrderDateTo" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="DeptCode">Dept Code</label>
+        <input type="text" asp-for="DeptCode" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="CustCode">Cust Code</label>
+        <input type="text" asp-for="CustCode" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="EmpCode">Emp Code</label>
+        <input type="text" asp-for="EmpCode" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="WhCode">WH Code</label>
+        <input type="text" asp-for="WhCode" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-primary">Search</button>
+</form>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>@Html.DisplayNameFor(model => model.OrderNo)</th>
+        <th>@Html.DisplayNameFor(model => model.OrderDate)</th>
+        <th>@Html.DisplayNameFor(model => model.DeptCode)</th>
+        <th>@Html.DisplayNameFor(model => model.CustCode)</th>
+        <th>@Html.DisplayNameFor(model => model.EmpCode)</th>
+        <th>@Html.DisplayNameFor(model => model.WhCode)</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model)
+    {
+    <tr>
+        <td>@item.OrderNo</td>
+        <td>@item.OrderDate</td>
+        <td>@item.DeptCode</td>
+        <td>@item.CustCode</td>
+        <td>@item.EmpCode</td>
+        <td>@item.WhCode</td>
+        <td>
+            <a asp-action="Edit" asp-route-id="@item.OrderNo" class="btn btn-primary">Edit</a>
+            <a asp-action="Details" asp-route-id="@item.OrderNo" class="btn btn-info">Details</a>
+        </td>
+    </tr>
+    }
+    </tbody>
+</table>

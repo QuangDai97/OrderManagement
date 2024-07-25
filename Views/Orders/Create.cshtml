@@ -1,0 +1,87 @@
+@model OrderManagement.Models.Order
+
+@{
+    ViewData["Title"] = "Create Order";
+}
+
+<h1>Create Order</h1>
+
+<form asp-action="Create">
+    <div class="form-group">
+        <label asp-for="OrderDate" class="control-label"></label>
+        <input asp-for="OrderDate" class="form-control" />
+        <span asp-validation-for="OrderDate" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="DeptCode" class="control-label"></label>
+        <input asp-for="DeptCode" class="form-control" />
+        <span asp-validation-for="DeptCode" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="CustCode" class="control-label"></label>
+        <input asp-for="CustCode" class="form-control" />
+        <span asp-validation-for="CustCode" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="EmpCode" class="control-label"></label>
+        <input asp-for="EmpCode" class="form-control" />
+        <span asp-validation-for="EmpCode" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="RequiredDate" class="control-label"></label>
+        <input asp-for="RequiredDate" class="form-control" />
+        <span asp-validation-for="RequiredDate" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="CustOrderNo" class="control-label"></label>
+        <input asp-for="CustOrderNo" class="form-control" />
+        <span asp-validation-for="CustOrderNo" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="WhCode" class="control-label"></label>
+        <input asp-for="WhCode" class="form-control" />
+        <span asp-validation-for="WhCode" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="CmpTax" class="control-label"></label>
+        <input asp-for="CmpTax" class="form-control" />
+        <span asp-validation-for="CmpTax" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="SlipComment" class="control-label"></label>
+        <textarea asp-for="SlipComment" class="form-control"></textarea>
+        <span asp-validation-for="SlipComment" class="text-danger"></span>
+    </div>
+
+    <!-- Add more fields here -->
+    <div class="form-group">
+        <label asp-for="NewField1" class="control-label">New Field 1</label>
+        <input asp-for="NewField1" class="form-control" />
+        <span asp-validation-for="NewField1" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="NewField2" class="control-label">New Field 2</label>
+        <input asp-for="NewField2" class="form-control" />
+        <span asp-validation-for="NewField2" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="NewField3" class="control-label">New Field 3</label>
+        <input asp-for="NewField3" class="form-control" />
+        <span asp-validation-for="NewField3" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <input type="submit" value="Create" class="btn btn-primary" />
+        <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+    </div>
+</form>
