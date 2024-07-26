@@ -1,5 +1,6 @@
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using OrderManagement.Data;
+using OrderManagement.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -39,3 +40,4 @@ app.UseEndpoints(endpoints =>
         pattern: "{controller=Orders}/{action=Index}/{id?}");
 });
 app.Run();
+

@@ -1,74 +1,139 @@
-@model OrderManagement.Models.Order
+﻿@model OrderManagement.Models.Order
 
 @{
     ViewData["Title"] = "Edit Order";
 }
 
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f8f9fa;
+        padding-top: 20px;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    label.control-label {
+        font-weight: bold;
+        width: 100px; /* Điều chỉnh chiều rộng của label */
+        display: inline-block;
+    }
+
+    input[type="text"],
+    input[type="date"],
+    textarea {
+        width: calc(100% - 110px); /* Chiều rộng của input/text area sau khi bớt đi chiều rộng của label */
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+
+    textarea {
+        resize: vertical; /* Cho phép điều chỉnh chiều cao của textarea */
+    }
+
+    .btn {
+        padding: 8px 20px;
+        font-size: 14px;
+        margin-right: 10px;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+        color: #fff;
+    }
+
+        .btn-primary:hover {
+            background-color: #0069d9;
+            border-color: #0062cc;
+        }
+
+    .btn-secondary {
+        background-color: #6c757d;
+        border-color: #6c757d;
+        color: #fff;
+    }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+            border-color: #545b62;
+        }
+
+    .text-danger {
+        color: #dc3545;
+    }
+</style>
+
 <h1>Edit Order</h1>
 
-<form asp-action="Edit">
+<form method="post" action="/Orders/Edit">
+    @Html.AntiForgeryToken()
     <div class="form-group">
-        <label asp-for="OrderNo" class="control-label"></label>
-        <input asp-for="OrderNo" class="form-control" readonly />
+        <label asp-for="OrderNo" class="control-label">OrderNo</label>
+        <input asp-for="OrderNo" name="OrderNo" class="form-control" readonly value="@Model.OrderNo" />
         <span asp-validation-for="OrderNo" class="text-danger"></span>
     </div>
 
     <div class="form-group">
-        <label asp-for="OrderDate" class="control-label"></label>
-        <input asp-for="OrderDate" class="form-control" />
+        <label asp-for="OrderDate" class="control-label">Order Date</label>
+        <input asp-for="OrderDate" type="date" name="OrderDate" class="form-control" value="@Model.OrderDate.ToString("yyyy-MM-dd")" />
         <span asp-validation-for="OrderDate" class="text-danger"></span>
     </div>
 
     <div class="form-group">
-        <label asp-for="DeptCode" class="control-label"></label>
-        <input asp-for="DeptCode" class="form-control" />
+        <label asp-for="DeptCode" class="control-label">Dept Code</label>
+        <input asp-for="DeptCode" name="DeptCode" class="form-control" value="@Model.DeptCode" />
         <span asp-validation-for="DeptCode" class="text-danger"></span>
     </div>
 
     <div class="form-group">
-        <label asp-for="CustCode" class="control-label"></label>
-        <input asp-for="CustCode" class="form-control" />
+        <label asp-for="CustCode" class="control-label"> Cust Code </label>
+        <input asp-for="CustCode" name="CustCode" class="form-control" value="@Model.CustCode" />
         <span asp-validation-for="CustCode" class="text-danger"></span>
     </div>
 
     <div class="form-group">
-        <label asp-for="EmpCode" class="control-label"></label>
-        <input asp-for="EmpCode" class="form-control" />
+        <label asp-for="EmpCode" class="control-label">Emp Code</label>
+        <input asp-for="EmpCode" name="EmpCode" class="form-control" value="@Model.EmpCode" />
         <span asp-validation-for="EmpCode" class="text-danger"></span>
     </div>
 
     <div class="form-group">
-        <label asp-for="RequiredDate" class="control-label"></label>
-        <input asp-for="RequiredDate" class="form-control" />
+        <label asp-for="RequiredDate" class="control-label"> Required Date </label>
+        <input asp-for="RequiredDate" name="RequiredDate" type="date" class="form-control" value="@Model.RequiredDate" />
         <span asp-validation-for="RequiredDate" class="text-danger"></span>
     </div>
 
     <div class="form-group">
-        <label asp-for="CustOrderNo" class="control-label"></label>
-        <input asp-for="CustOrderNo" class="form-control" />
+        <label asp-for="CustOrderNo" class="control-label"> Cust Order No</label>
+        <input asp-for="CustOrderNo" name="CustOrderNo" class="form-control" value="@Model.CustOrderNo" />
         <span asp-validation-for="CustOrderNo" class="text-danger"></span>
     </div>
 
     <div class="form-group">
-        <label asp-for="WhCode" class="control-label"></label>
-        <input asp-for="WhCode" class="form-control" />
+        <label asp-for="WhCode" class="control-label">Wh Code</label>
+        <input asp-for="WhCode" name="WhCode" class="form-control" value="@Model.WhCode" />
         <span asp-validation-for="WhCode" class="text-danger"></span>
     </div>
 
     <div class="form-group">
-        <label asp-for="CmpTax" class="control-label"></label>
-        <input asp-for="CmpTax" class="form-control" />
+        <label asp-for="CmpTax" class="control-label"> Cmp Tax</label>
+        <input asp-for="CmpTax" name="CmpTax" class="form-control" value="@Model.CmpTax" />
         <span asp-validation-for="CmpTax" class="text-danger"></span>
     </div>
 
     <div class="form-group">
-        <label asp-for="SlipComment" class="control-label"></label>
-        <textarea asp-for="SlipComment" class="form-control"></textarea>
+        <label asp-for="SlipComment" class="control-label"> Slip Comment </label>
+        <textarea asp-for="SlipComment" name="SlipComment" class="form-control">@Model.SlipComment</textarea>
         <span asp-validation-for="SlipComment" class="text-danger"></span>
     </div>
 
     <div class="form-group">
-        <input type="submit" value="Save" class="btn btn-primary" />
-        <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+        <button type="submit" class="btn btn-primary">Save</button>
+        <a href="/Orders" class="btn btn-secondary">Back to List</a>
     </div>
 </form>

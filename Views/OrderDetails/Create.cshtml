@@ -1,0 +1,171 @@
+﻿@{
+    ViewData["Title"] = "Create Order Detail";
+    string orderId = ViewBag.OrderId as string;
+}
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f8f9fa;
+        padding-top: 20px;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    label.control-label {
+        font-weight: bold;
+    }
+
+    input[type="text"],
+    input[type="date"],
+    textarea {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+
+    textarea {
+        resize: vertical; /* Cho phép điều chỉnh chiều cao của textarea */
+    }
+
+    .btn {
+        padding: 8px 20px;
+        font-size: 14px;
+        margin-right: 10px;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+        color: #fff;
+    }
+
+        .btn-primary:hover {
+            background-color: #0069d9;
+            border-color: #0062cc;
+        }
+
+    .btn-secondary {
+        background-color: #6c757d;
+        border-color: #6c757d;
+        color: #fff;
+    }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+            border-color: #545b62;
+        }
+
+    .text-danger {
+        color: #dc3545;
+    }
+</style>
+
+<h1>Create</h1>
+
+<h4>OrderDetail</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post" action="/OrderDetails/Create">
+            @Html.AntiForgeryToken()
+            <div class="form-group">
+                <label for="OrderNo" class="control-label">Order No</label>
+                <input id="OrderNoParent" name="OrderNoParent" type="text" value="@orderId" readonly class="form-control" />
+                <span asp-validation-for="OrderNo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="OrderNo" class="control-label">Order Detail No</label>
+                <input id="OrderNo" name="OrderNo" type="text" value="" class="form-control" />
+                <span asp-validation-for="OrderNo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="SoRowNo" class="control-label">So Row No</label>
+                <input id="SoRowNo" name="SoRowNo" type="text" value="" class="form-control" />
+                <span asp-validation-for="SoRowNo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="ProdCode" class="control-label">Product Code</label>
+                <input id="ProdCode" name="ProdCode" type="text" value="" class="form-control" />
+                <span asp-validation-for="ProdCode" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="ProdName" class="control-label">Product Name</label>
+                <input id="ProdName" name="ProdName" type="text" value="" class="form-control" />
+                <span asp-validation-for="ProdName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="UnitPrice" class="control-label">Unit Price</label>
+                <input id="UnitPrice" name="UnitPrice" type="number" value="" class="form-control" />
+                <span asp-validation-for="UnitPrice" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="Quantity" class="control-label">Quantity</label>
+                <input id="Quantity" name="Quantity" type="number" value="" class="form-control" />
+                <span asp-validation-for="Quantity" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="CmpTaxRate" class="control-label">Cmp Tax Rate</label>
+                <input id="CmpTaxRate" name="CmpTaxRate" type="number" value="" class="form-control" />
+                <span asp-validation-for="CmpTaxRate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="ReserveQty" class="control-label">Reserve Quantity</label>
+                <input id="ReserveQty" name="ReserveQty" type="number" value="" class="form-control" />
+                <span asp-validation-for="ReserveQty" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="DeliveryOrderQty" class="control-label">Delivery Order Quantity</label>
+                <input id="DeliveryOrderQty" name="DeliveryOrderQty" type="number" value="" class="form-control" />
+                <span asp-validation-for="DeliveryOrderQty" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="DeliveredQty" class="control-label">Delivered Quantity</label>
+                <input id="DeliveredQty" name="DeliveredQty" type="number" value="" class="form-control" />
+                <span asp-validation-for="DeliveredQty" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="CompleteFlg" class="control-label">Complete Flag</label>
+                <input id="CompleteFlg" name="CompleteFlg" type="number" value="" class="form-control" />
+                <span asp-validation-for="CompleteFlg" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="Discount" class="control-label">Discount</label>
+                <input id="Discount" name="Discount" type="number" value="" class="form-control" />
+                <span asp-validation-for="Discount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="DeliveryDate" class="control-label">Delivery Date</label>
+                <input id="DeliveryDate" name="DeliveryDate" type="date" value="" class="form-control" />
+                <span asp-validation-for="DeliveryDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="UpdateDate" class="control-label">Update Date</label>
+                <input id="UpdateDate" name="UpdateDate" type="date" value="" class="form-control" />
+                <span asp-validation-for="UpdateDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="Updater" class="control-label">Updater</label>
+                <input id="Updater" name="Updater" type="text" value="" class="form-control" />
+                <span asp-validation-for="Updater" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

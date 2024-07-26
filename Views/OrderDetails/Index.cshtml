@@ -1,0 +1,125 @@
+﻿@model IEnumerable<OrderManagement.Models.OrderDetail>
+
+@{
+    ViewData["Title"] = "Index";
+    string parentId = ViewBag.ParentId as string;
+
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background-color: #fff;
+        }
+
+        .table th, .table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        .table th {
+            background-color: #007bff;
+            color: white;
+            font-weight: bold;
+        }
+
+        .table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        .table tr:hover {
+            background-color: #ddd;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 14px;
+            text-align: center;
+            text-decoration: none;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: #0069d9;
+        }
+    </style>
+</head>
+<body>
+    <h1>Index</h1>
+
+    <p>
+        <a class="btn" asp-action="Create">Create New</a>
+    </p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.ProdCode)</th>
+                <th>@Html.DisplayNameFor(model => model.ProdName)</th>
+                <th>@Html.DisplayNameFor(model => model.UnitPrice)</th>
+                <th>@Html.DisplayNameFor(model => model.Quantity)</th>
+                <th>@Html.DisplayNameFor(model => model.CmpTaxRate)</th>
+                <th>@Html.DisplayNameFor(model => model.ReserveQty)</th>
+                <th>@Html.DisplayNameFor(model => model.DeliveryOrderQty)</th>
+                <th>@Html.DisplayNameFor(model => model.DeliveredQty)</th>
+                <th>@Html.DisplayNameFor(model => model.CompleteFlg)</th>
+                <th>@Html.DisplayNameFor(model => model.Discount)</th>
+                <th>@Html.DisplayNameFor(model => model.DeliveryDate)</th>
+                <th>@Html.DisplayNameFor(model => model.UpdateDate)</th>
+                <th>@Html.DisplayNameFor(model => model.Updater)</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.ProdCode)</td>
+                    <td>@Html.DisplayFor(modelItem => item.ProdName)</td>
+                    <td>@Html.DisplayFor(modelItem => item.UnitPrice)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Quantity)</td>
+                    <td>@Html.DisplayFor(modelItem => item.CmpTaxRate)</td>
+                    <td>@Html.DisplayFor(modelItem => item.ReserveQty)</td>
+                    <td>@Html.DisplayFor(modelItem => item.DeliveryOrderQty)</td>
+                    <td>@Html.DisplayFor(modelItem => item.DeliveredQty)</td>
+                    <td>@Html.DisplayFor(modelItem => item.CompleteFlg)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Discount)</td>
+                    <td>@Html.DisplayFor(modelItem => item.DeliveryDate)</td>
+                    <td>@Html.DisplayFor(modelItem => item.UpdateDate)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Updater)</td>
+                    <td>
+                        <a href="@Url.Action("Edit", "OrderDetails",  new { OrderNo = item.OrderNo })" class="btn btn-primary">Edit</a>
+                        <a href="@Url.Action("Delete", "OrderDetails", new { OrderNo = item.OrderNo })" class="btn btn-info">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <p>
+        <a href="@Url.Action("Create", "OrderDetails", new { id = @parentId })" class="btn btn-primary">Create</a>
+    </p>
+</body>
+</html>

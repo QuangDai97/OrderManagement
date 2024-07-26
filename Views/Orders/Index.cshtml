@@ -1,35 +1,80 @@
 @model IEnumerable<OrderManagement.Models.Order>
 
+    
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f8f9fa;
+        padding-top: 20px;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .table {
+        width: 100%;
+        background-color: #fff;
+        margin-bottom: 20px;
+        border: 1px solid #dee2e6;
+    }
+
+    .table th,
+    .table td {
+        padding: 8px;
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    .table th {
+        background-color: #007bff;
+        color: #fff;
+    }
+
+    .table td {
+        border-top: 1px solid #dee2e6;
+    }
+
+    .btn {
+        padding: 6px 12px;
+        font-size: 14px;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+    }
+
+    .btn-primary:hover {
+        background-color: #0069d9;
+        border-color: #0062cc;
+    }
+
+    .btn-info {
+        background-color: #17a2b8;
+        border-color: #17a2b8;
+    }
+
+    .btn-info:hover {
+        background-color: #138496;
+        border-color: #117a8b;
+    }
+</style>
+
 <h1>Order List</h1>
 
 <form method="get" asp-action="Index">
     <div class="form-group">
-        <label asp-for="OrderNo">Order No</label>
-        <input type="text" asp-for="OrderNo" class="form-control" />
+        <label asp-for="OrderNo">Search text</label>
+        <input type="text" asp-for="OrderNo" name="search" class="form-control" />
     </div>
     <div class="form-group">
         <label asp-for="OrderDateFrom">Order Date From</label>
-        <input type="date" asp-for="OrderDateFrom" class="form-control" />
+        <input type="date" asp-for="OrderDateFrom" class="form-control"  />
     </div>
     <div class="form-group">
         <label asp-for="OrderDateTo">Order Date To</label>
         <input type="date" asp-for="OrderDateTo" class="form-control" />
-    </div>
-    <div class="form-group">
-        <label asp-for="DeptCode">Dept Code</label>
-        <input type="text" asp-for="DeptCode" class="form-control" />
-    </div>
-    <div class="form-group">
-        <label asp-for="CustCode">Cust Code</label>
-        <input type="text" asp-for="CustCode" class="form-control" />
-    </div>
-    <div class="form-group">
-        <label asp-for="EmpCode">Emp Code</label>
-        <input type="text" asp-for="EmpCode" class="form-control" />
-    </div>
-    <div class="form-group">
-        <label asp-for="WhCode">WH Code</label>
-        <input type="text" asp-for="WhCode" class="form-control" />
     </div>
     <button type="submit" class="btn btn-primary">Search</button>
 </form>
@@ -57,10 +102,14 @@
         <td>@item.EmpCode</td>
         <td>@item.WhCode</td>
         <td>
-            <a asp-action="Edit" asp-route-id="@item.OrderNo" class="btn btn-primary">Edit</a>
-            <a asp-action="Details" asp-route-id="@item.OrderNo" class="btn btn-info">Details</a>
+                    <a href="@Url.Action("Edit", "Orders", new { id = item.OrderNo })" class="btn btn-primary">Edit</a>
+                    <a href="@Url.Action("Index", "OrderDetails", new { parentId = item.OrderNo })" class="btn btn-primary">View Detail</a>
+                    <a href="@Url.Action("Delete", "Orders", new { OrderNo = item.OrderNo })" class="btn btn-info">Delete</a>
         </td>
     </tr>
     }
+
+
     </tbody>
 </table>
+<a href="@Url.Action("Create", "Orders")" class="btn btn-primary">Create New</a>
