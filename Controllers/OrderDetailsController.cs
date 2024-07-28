@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using NuGet.Protocol.Plugins;
 using OrderManagement.Data;
 using OrderManagement.Models;
 
@@ -33,7 +27,6 @@ namespace OrderManagement.Controllers
 
             return View(orderDetails);
         }
-        // GET: OrderDetails/Details/5
         public async Task<IActionResult> Details(string OrderNo)
         {
             if (OrderNo == null)
@@ -41,8 +34,7 @@ namespace OrderManagement.Controllers
                 return NotFound();
             }
 
-            var orderDetail = await _context.OrderDetails
-                .FirstOrDefaultAsync(m => m.OrderNo == OrderNo);
+            var orderDetail = await _context.OrderDetails.FirstOrDefaultAsync(m => m.OrderNo == OrderNo);
             if (orderDetail == null)
             {
                 return NotFound();
@@ -51,7 +43,6 @@ namespace OrderManagement.Controllers
             return View(orderDetail);
         }
 
-        // GET: OrderDetails/Create
         public async Task<IActionResult> Create(string id)
         {
             if (id == null)
@@ -68,19 +59,15 @@ namespace OrderManagement.Controllers
             return View();
         }
 
-        // POST: OrderDetails/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("OrderNo,SoRowNo,ProdCode,ProdName,UnitPrice,Quantity,CmpTaxRate,ReserveQty,DeliveryOrderQty,DeliveredQty,CompleteFlg,Discount,DeliveryDate,UpdateDate,Updater")] OrderDetail orderDetail)
+        public async Task<IActionResult> Create(OrderDetail orderDetail)
         {
             var orderCheck = _context.OrderDetails
-                           .Include(od => od.Order) // Eager load the Order navigation property
+                           .Include(od => od.Order)
                            .FirstOrDefault(od => od.OrderNo == orderDetail.OrderNo && od.SoRowNo == orderDetail.SoRowNo);
             if (orderCheck != null)
             {
-                // Nếu OrderDetail đã tồn tại
                 ModelState.AddModelError("SoRowNo", "SoRowNo đã tồn tại. Vui lòng nhập SoRowNo khác.");
                 ViewBag.OrderId = orderDetail.OrderNo;
                 return View(orderDetail);
@@ -92,12 +79,10 @@ namespace OrderManagement.Controllers
             _context.Add(orderDetail);
             await _context.SaveChangesAsync();
 
-            // Lưu thông báo thành công vào TempData
             TempData["SuccessMessage"] = "Order detail created successfully!";
             return RedirectToAction(nameof(Index), new { parentId = orderDetail.OrderNo });
         }
 
-        // GET: OrderDetails/Edit/5
         public async Task<IActionResult> Edit(string OrderNo, int SoRowNo)
         {
             if (OrderNo == null)
@@ -106,7 +91,7 @@ namespace OrderManagement.Controllers
             }
 
             var orderDetail = _context.OrderDetails
-                             .Include(od => od.Order) // Eager load the Order navigation property
+                             .Include(od => od.Order)
                              .FirstOrDefault(od => od.OrderNo == OrderNo && od.SoRowNo == SoRowNo);
             if (orderDetail == null)
             {
@@ -115,20 +100,11 @@ namespace OrderManagement.Controllers
             return View(orderDetail);
         }
 
-        // POST: OrderDetails/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit([Bind("OrderNo,SoRowNo,ProdCode,ProdName,UnitPrice,Quantity,CmpTaxRate,ReserveQty,DeliveryOrderQty,DeliveredQty,CompleteFlg,Discount,DeliveryDate,UpdateDate,Updater")] OrderDetail orderDetail)
+        public async Task<IActionResult> Edit(OrderDetail orderDetail)
         {
-            //if (OrderNo != orderDetail.OrderNo)
-            //{
-            //    return NotFound();
-            //}
-
-            //if (ModelState.IsValid)
-            //{
+            
             orderDetail.UpdateDate = DateTime.Now;
             try
             {
@@ -147,10 +123,8 @@ namespace OrderManagement.Controllers
                 }
             }
             return RedirectToAction(nameof(Index), new { parentId = orderDetail.OrderNo });
-            //}
         }
 
-        // GET: OrderDetails/Delete/5
         public async Task<IActionResult> Delete(string OrderNo, int SoRowNo)
         {
             if (OrderNo == null)
@@ -168,7 +142,6 @@ namespace OrderManagement.Controllers
             return View(orderDetail);
         }
 
-        // POST: OrderDetails/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string OrderNo, int SoRowNo)

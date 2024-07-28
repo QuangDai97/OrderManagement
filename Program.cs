@@ -39,5 +39,8 @@ app.UseEndpoints(endpoints =>
         name: "default",
         pattern: "{controller=Orders}/{action=Index}/{id?}");
 });
+
+await DatabaseInitializer.InitializeAsync(app.Services);
+
 app.Run();
 
