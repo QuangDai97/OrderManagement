@@ -16,6 +16,7 @@
             font-family: Arial, sans-serif;
             background-color: #f8f9fa;
             padding: 20px;
+            font-size:15px;
         }
 
         h1 {
@@ -51,7 +52,7 @@
 
         .btn {
             display: inline-block;
-            padding: 10px 20px;
+            padding: 6px 14px;
             font-size: 14px;
             text-align: center;
             text-decoration: none;
@@ -65,17 +66,26 @@
         .btn:hover {
             background-color: #0069d9;
         }
+        a{
+            color:white;
+            text-decoration: none;
+        }
     </style>
 </head>
 <body>
-    <h1>Index</h1>
-
-    <p>
-        <a class="btn" asp-action="Create">Create New</a>
-    </p>
+    <h1 style="text-align:center">Order Detail List </h1>
+    <br />
+    <h3>OrderNo: @parentId</h3>
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success" role="alert">
+            @TempData["SuccessMessage"]
+        </div>
+    }
     <table class="table">
         <thead>
             <tr>
+                <th>@Html.DisplayNameFor(model => model.SoRowNo)</th>
                 <th>@Html.DisplayNameFor(model => model.ProdCode)</th>
                 <th>@Html.DisplayNameFor(model => model.ProdName)</th>
                 <th>@Html.DisplayNameFor(model => model.UnitPrice)</th>
@@ -96,6 +106,7 @@
             @foreach (var item in Model)
             {
                 <tr>
+                    <td>@Html.DisplayFor(modelItem => item.SoRowNo)</td>
                     <td>@Html.DisplayFor(modelItem => item.ProdCode)</td>
                     <td>@Html.DisplayFor(modelItem => item.ProdName)</td>
                     <td>@Html.DisplayFor(modelItem => item.UnitPrice)</td>
@@ -110,8 +121,8 @@
                     <td>@Html.DisplayFor(modelItem => item.UpdateDate)</td>
                     <td>@Html.DisplayFor(modelItem => item.Updater)</td>
                     <td>
-                        <a href="@Url.Action("Edit", "OrderDetails",  new { OrderNo = item.OrderNo })" class="btn btn-primary">Edit</a>
-                        <a href="@Url.Action("Delete", "OrderDetails", new { OrderNo = item.OrderNo })" class="btn btn-info">Delete</a>
+                        <a style="margin-bottom:3px;width:35px;" href="@Url.Action("Edit", "OrderDetails",  new { OrderNo = item.OrderNo, SoRowNo = item.SoRowNo})" class="btn btn-primary">Edit</a>
+                        <a style="width:35px; background-color:red" href="@Url.Action("Delete", "OrderDetails", new { OrderNo = item.OrderNo, SoRowNo = item.SoRowNo })" class="btn btn-info">Delete</a>
                     </td>
                 </tr>
             }
@@ -120,6 +131,7 @@
 
     <p>
         <a href="@Url.Action("Create", "OrderDetails", new { id = @parentId })" class="btn btn-primary">Create</a>
+        <a href="@Url.Action("Index", "Orders")" class="btn  btn-secondary">Back to order list</a>
     </p>
 </body>
 </html>

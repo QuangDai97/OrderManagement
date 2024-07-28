@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using NuGet.Protocol.Plugins;
 using OrderManagement.Data;
 using OrderManagement.Models;
 
@@ -51,7 +52,7 @@ namespace OrderManagement.Controllers
         }
 
         // GET: OrderDetails/Create
-        public async Task<IActionResult> Create(string id )
+        public async Task<IActionResult> Create(string id)
         {
             if (id == null)
             {
@@ -72,29 +73,41 @@ namespace OrderManagement.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(string OrderNoParent, [Bind("OrderNo,SoRowNo,ProdCode,ProdName,UnitPrice,Quantity,CmpTaxRate,ReserveQty,DeliveryOrderQty,DeliveredQty,CompleteFlg,Discount,DeliveryDate,UpdateDate,Updater")] OrderDetail orderDetail)
+        public async Task<IActionResult> Create([Bind("OrderNo,SoRowNo,ProdCode,ProdName,UnitPrice,Quantity,CmpTaxRate,ReserveQty,DeliveryOrderQty,DeliveredQty,CompleteFlg,Discount,DeliveryDate,UpdateDate,Updater")] OrderDetail orderDetail)
         {
-            var order = await _context.Orders.FindAsync(OrderNoParent);
+            var orderCheck = _context.OrderDetails
+                           .Include(od => od.Order) // Eager load the Order navigation property
+                           .FirstOrDefault(od => od.OrderNo == orderDetail.OrderNo && od.SoRowNo == orderDetail.SoRowNo);
+            if (orderCheck != null)
+            {
+                // Nếu OrderDetail đã tồn tại
+                ModelState.AddModelError("SoRowNo", "SoRowNo đã tồn tại. Vui lòng nhập SoRowNo khác.");
+                ViewBag.OrderId = orderDetail.OrderNo;
+                return View(orderDetail);
+            }
+
+            var order = _context.Orders.FirstOrDefault(od => od.OrderNo == orderDetail.OrderNo);
             orderDetail.Order = order;
-            //if (ModelState.IsValid)
-            //{
-                _context.Add(orderDetail);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index), new { parentId = OrderNoParent });
-            //}
-            return View(orderDetail);
+            orderDetail.UpdateDate = DateTime.Now;
+            _context.Add(orderDetail);
+            await _context.SaveChangesAsync();
+
+            // Lưu thông báo thành công vào TempData
+            TempData["SuccessMessage"] = "Order detail created successfully!";
+            return RedirectToAction(nameof(Index), new { parentId = orderDetail.OrderNo });
         }
 
         // GET: OrderDetails/Edit/5
-        public async Task<IActionResult> Edit(string OrderNo)
+        public async Task<IActionResult> Edit(string OrderNo, int SoRowNo)
         {
             if (OrderNo == null)
             {
                 return NotFound();
             }
 
-            var orderDetail =  _context.OrderDetails
-                                             .Where(od => od.OrderNo == OrderNo).FirstOrDefault();
+            var orderDetail = _context.OrderDetails
+                             .Include(od => od.Order) // Eager load the Order navigation property
+                             .FirstOrDefault(od => od.OrderNo == OrderNo && od.SoRowNo == SoRowNo);
             if (orderDetail == null)
             {
                 return NotFound();
@@ -116,29 +129,29 @@ namespace OrderManagement.Controllers
 
             //if (ModelState.IsValid)
             //{
-                try
+            orderDetail.UpdateDate = DateTime.Now;
+            try
+            {
+                _context.Update(orderDetail);
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!OrderDetailExists(orderDetail.OrderNo, orderDetail.SoRowNo))
                 {
-                    _context.Update(orderDetail);
-                    await _context.SaveChangesAsync();
+                    return NotFound();
                 }
-                catch (DbUpdateConcurrencyException)
+                else
                 {
-                    if (!OrderDetailExists(orderDetail.OrderNo))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    throw;
                 }
-                return RedirectToAction(nameof(Index), new { parentId = orderDetail.Order.OrderNo });
+            }
+            return RedirectToAction(nameof(Index), new { parentId = orderDetail.OrderNo });
             //}
-            return View(orderDetail);
         }
 
         // GET: OrderDetails/Delete/5
-        public async Task<IActionResult> Delete(string OrderNo)
+        public async Task<IActionResult> Delete(string OrderNo, int SoRowNo)
         {
             if (OrderNo == null)
             {
@@ -146,7 +159,7 @@ namespace OrderManagement.Controllers
             }
 
             var orderDetail = await _context.OrderDetails
-                .FirstOrDefaultAsync(m => m.OrderNo == OrderNo);
+                .FirstOrDefaultAsync(m => m.OrderNo == OrderNo && m.SoRowNo == SoRowNo);
             if (orderDetail == null)
             {
                 return NotFound();
@@ -158,21 +171,22 @@ namespace OrderManagement.Controllers
         // POST: OrderDetails/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(string OrderNo)
+        public async Task<IActionResult> DeleteConfirmed(string OrderNo, int SoRowNo)
         {
-            var orderDetail = await _context.OrderDetails.FindAsync(OrderNo);
+
+            var orderDetail = _context.OrderDetails.FirstOrDefault(od => od.OrderNo == OrderNo && od.SoRowNo == SoRowNo); ;
             if (orderDetail != null)
             {
                 _context.OrderDetails.Remove(orderDetail);
             }
 
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Index), new { parentId = orderDetail.OrderNo });
         }
 
-        private bool OrderDetailExists(string id)
+        private bool OrderDetailExists(string id, int soRowNo)
         {
-            return _context.OrderDetails.Any(e => e.OrderNo == id);
+            return _context.OrderDetails.Any(e => e.OrderNo == id && e.SoRowNo == soRowNo);
         }
     }
 }

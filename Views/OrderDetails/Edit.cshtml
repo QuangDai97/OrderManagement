@@ -3,173 +3,164 @@
 @{
     ViewData["Title"] = "Edit";
 }
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+<h1 style="text-align:center; margin-bottom:30px;">Edit Order Details</h1>
 
-<h1>Edit</h1>
+<div class="container">
+    <form method="post" action="/OrderDetails/Edit">
+        @Html.AntiForgeryToken()
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-<h4>OrderDetail</h4>
-<hr />
-<div class="row">
-    <div class="col-md-6">
-        <form method="post" action="/OrderDetails/Edit">
-            @Html.AntiForgeryToken()
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <!-- Các trường dữ liệu -->
+        <input type="hidden" name="OrderNo" value="@Model.OrderNo" />
+        <input type="hidden" name="SoRowNo" value="@Model.SoRowNo" />
+        <div class="row">
+            <div class="col-md-4">
 
-            <!-- Các trường dữ liệu -->
-            <input type="hidden" asp-for="OrderNo" />
-            <input type="hidden" asp-for="SoRowNo" />
+                <div class="form-group">
+                    <label asp-for="ProdCode" class="control-label"></label>
+                    <div class="form-row">
+                        <label for="ProdCode" class="col-form-label text-danger">ProdCode *:</label>
+                        <div class="col-sm-9">
+                            <input asp-for="ProdCode" required class="form-control" id="ProdCode" name="ProdCode" value="@Model.ProdCode" />
+                            <span asp-validation-for="ProdCode" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
 
-            <div class="form-group">
-                <label asp-for="ProdCode" class="control-label"></label>
-                <div class="form-row">
-                    <label for="ProdCode" class="col-sm-3 col-form-label">ProdCode:</label>
-                    <div class="col-sm-9">
-                        <input asp-for="ProdCode" class="form-control" id="ProdCode" name="ProdCode" value="@Model.ProdCode" />
-                        <span asp-validation-for="ProdCode" class="text-danger"></span>
+                <div class="form-group">
+                    <div class="form-row">
+                        <label for="ProdName" class="col-form-label text-danger">ProdName *:</label>
+                        <div class="col-sm-9">
+                            <input asp-for="ProdName" class="form-control" required id="ProdName" name="ProdName" value="@Model.ProdName" />
+                            <span asp-validation-for="ProdName" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+
+                    <div class="form-row">
+                        <label for="UnitPrice" class="col-form-label text-danger">UnitPrice *:</label>
+                        <div class="col-sm-9">
+                            <input asp-for="UnitPrice" class="form-control" required id="UnitPrice" name="UnitPrice" value="@Model.UnitPrice" />
+                            <span asp-validation-for="UnitPrice" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="form-row">
+                        <label for="Quantity" class="col-form-label text-danger">Quantity *:</label>
+                        <div class="col-sm-9">
+                            <input class="form-control" id="Quantity" required name="Quantity" value="@Model.Quantity" />
+                            <span asp-validation-for="Quantity" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="col-md-4" style="padding-top:3px;">
+
+                <div class="form-group">
+                    <label asp-for="CmpTaxRate" class="control-label"></label>
+                    <div class="form-row">
+                        <label for="CmpTaxRate" class="col-form-label">CmpTaxRate:</label>
+                        <div class="col-sm-9">
+                            <input asp-for="CmpTaxRate" class="form-control" id="CmpTaxRate" name="CmpTaxRate" value="@Model.CmpTaxRate" />
+                            <span asp-validation-for="CmpTaxRate" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group" style="    margin-top: -7px;">
+                    <label asp-for="ReserveQty" class="control-label"></label>
+                    <div class="form-row">
+                        <label for="ReserveQty" class="col-form-label">ReserveQty:</label>
+                        <div class="col-sm-9">
+                            <input asp-for="ReserveQty" class="form-control" id="ReserveQty" name="ReserveQty" value="@Model.ReserveQty" />
+                            <span asp-validation-for="ReserveQty" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group" style="    margin-top: -7px;">
+                    <label asp-for="DeliveryOrderQty" class="control-label"></label>
+                    <div class="form-row">
+                        <label for="DeliveryOrderQty" class="col-form-label">DeliveryOrderQty:</label>
+                        <div class="col-sm-9">
+                            <input asp-for="DeliveryOrderQty" class="form-control" id="DeliveryOrderQty" name="DeliveryOrderQty" value="@Model.DeliveryOrderQty" />
+                            <span asp-validation-for="DeliveryOrderQty" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group" style="    margin-top: -7px;">
+                    <label asp-for="DeliveredQty" class="control-label"></label>
+                    <div class="form-row">
+                        <label for="DeliveredQty" class="col-form-label">DeliveredQty:</label>
+                        <div class="col-sm-9">
+                            <input asp-for="DeliveredQty" class="form-control" id="DeliveredQty" name="DeliveredQty" value="@Model.DeliveredQty" />
+                            <span asp-validation-for="DeliveredQty" class="text-danger"></span>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <div class="form-group">
-                <label asp-for="ProdName" class="control-label"></label>
-                <div class="form-row">
-                    <label for="ProdName" class="col-sm-3 col-form-label">ProdName:</label>
-                    <div class="col-sm-9">
-                        <input asp-for="ProdName" class="form-control" id="ProdName" name="ProdName" value="@Model.ProdName" />
-                        <span asp-validation-for="ProdName" class="text-danger"></span>
+            <div class="col-md-4" style=" padding-top: 13px;">
+                <div class="form-group">
+                    <div class="form-row">
+                        <label for="CompleteFlg" class="col-form-label text-danger">CompleteFlg *:</label>
+                        <div class="col-sm-9">
+                            <input asp-for="CompleteFlg" required class="form-control" id="CompleteFlg" name="CompleteFlg" value="@Model.CompleteFlg" />
+                            <span asp-validation-for="CompleteFlg" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="form-row">
+                        <label for="Discount" class="col-form-label text-danger">Discount *:</label>
+                        <div class="col-sm-9">
+                            <input asp-for="Discount" class="form-control" id="Discount" name="Discount" value="@Model.Discount" />
+                            <span asp-validation-for="Discount" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group" style="    margin-top: -7px;">
+                    <label asp-for="DeliveryDate" class="control-label"></label>
+                    <div class="form-row">
+                        <label for="DeliveryDate" class="col-form-label">DeliveryDate:</label>
+                        <div class="col-sm-9">
+                            <input asp-for="DeliveryDate" class="form-control" id="DeliveryDate" name="DeliveryDate" value="@Model.DeliveryDate" />
+                            <span asp-validation-for="DeliveryDate" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-form-label">Updater:</label>
+                    <div class="form-row">
+                        <div>
+                            <input asp-for="Updater" class="form-control" id="Updater" style="margin-left: 5px;width: 258px;" name="Updater" value="@Model.Updater" />
+                            <span asp-validation-for="Updater" class="text-danger"></span>
+                        </div>
                     </div>
                 </div>
             </div>
+        </div>
 
-            <div class="form-group">
-                <label asp-for="UnitPrice" class="control-label"></label>
-                <div class="form-row">
-                    <label for="UnitPrice" class="col-sm-3 col-form-label">UnitPrice:</label>
-                    <div class="col-sm-9">
-                        <input asp-for="UnitPrice" class="form-control" id="UnitPrice" name="UnitPrice" value="@Model.UnitPrice" />
-                        <span asp-validation-for="UnitPrice" class="text-danger"></span>
-                    </div>
-                </div>
-            </div>
+        <div class="form-group">
+            <input type="submit" value="Save" class="btn btn-primary" style="margin-right:5px; height: 30px;padding: 4px 12px;" />
+            <a style="padding: 4px 12px;" href="@Url.Action("Index", "OrderDetails", new { parentId = @Model.OrderNo })" class="btn  btn-secondary">Back to list</a>
 
-            <div class="form-group">
-                <label asp-for="Quantity" class="control-label"></label>
-                <div class="form-row">
-                    <label for="Quantity" class="col-sm-3 col-form-label">Quantity:</label>
-                    <div class="col-sm-9">
-                        <input asp-for="Quantity" class="form-control" id="Quantity" name="Quantity" value="@Model.Quantity" />
-                        <span asp-validation-for="Quantity" class="text-danger"></span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="CmpTaxRate" class="control-label"></label>
-                <div class="form-row">
-                    <label for="CmpTaxRate" class="col-sm-3 col-form-label">CmpTaxRate:</label>
-                    <div class="col-sm-9">
-                        <input asp-for="CmpTaxRate" class="form-control" id="CmpTaxRate" name="CmpTaxRate" value="@Model.CmpTaxRate" />
-                        <span asp-validation-for="CmpTaxRate" class="text-danger"></span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="ReserveQty" class="control-label"></label>
-                <div class="form-row">
-                    <label for="ReserveQty" class="col-sm-3 col-form-label">ReserveQty:</label>
-                    <div class="col-sm-9">
-                        <input asp-for="ReserveQty" class="form-control" id="ReserveQty" name="ReserveQty" value="@Model.ReserveQty" />
-                        <span asp-validation-for="ReserveQty" class="text-danger"></span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="DeliveryOrderQty" class="control-label"></label>
-                <div class="form-row">
-                    <label for="DeliveryOrderQty" class="col-sm-3 col-form-label">DeliveryOrderQty:</label>
-                    <div class="col-sm-9">
-                        <input asp-for="DeliveryOrderQty" class="form-control" id="DeliveryOrderQty" name="DeliveryOrderQty" value="@Model.DeliveryOrderQty" />
-                        <span asp-validation-for="DeliveryOrderQty" class="text-danger"></span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="DeliveredQty" class="control-label"></label>
-                <div class="form-row">
-                    <label for="DeliveredQty" class="col-sm-3 col-form-label">DeliveredQty:</label>
-                    <div class="col-sm-9">
-                        <input asp-for="DeliveredQty" class="form-control" id="DeliveredQty" name="DeliveredQty" value="@Model.DeliveredQty" />
-                        <span asp-validation-for="DeliveredQty" class="text-danger"></span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="CompleteFlg" class="control-label"></label>
-                <div class="form-row">
-                    <label for="CompleteFlg" class="col-sm-3 col-form-label">CompleteFlg:</label>
-                    <div class="col-sm-9">
-                        <input asp-for="CompleteFlg" class="form-control" id="CompleteFlg" name="CompleteFlg" value="@Model.CompleteFlg" />
-                        <span asp-validation-for="CompleteFlg" class="text-danger"></span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="Discount" class="control-label"></label>
-                <div class="form-row">
-                    <label for="Discount" class="col-sm-3 col-form-label">Discount:</label>
-                    <div class="col-sm-9">
-                        <input asp-for="Discount" class="form-control" id="Discount" name="Discount" value="@Model.Discount" />
-                        <span asp-validation-for="Discount" class="text-danger"></span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="DeliveryDate" class="control-label"></label>
-                <div class="form-row">
-                    <label for="DeliveryDate" class="col-sm-3 col-form-label">DeliveryDate:</label>
-                    <div class="col-sm-9">
-                        <input asp-for="DeliveryDate" class="form-control" id="DeliveryDate" name="DeliveryDate" value="@Model.DeliveryDate.ToString("yyyy-MM-dd")" />
-                        <span asp-validation-for="DeliveryDate" class="text-danger"></span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="UpdateDate" class="control-label"></label>
-                <div class="form-row">
-                    <label for="UpdateDate" class="col-sm-3 col-form-label">UpdateDate:</label>
-                    <div class="col-sm-9">
-                        <input asp-for="UpdateDate" class="form-control" id="UpdateDate" name="UpdateDate" value="@Model.UpdateDate.ToString("yyyy-MM-dd")" />
-                        <span asp-validation-for="UpdateDate" class="text-danger"></span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="Updater" class="control-label"></label>
-                <div class="form-row">
-                    <label for="Updater" class="col-sm-3 col-form-label">Updater:</label>
-                    <div class="col-sm-9">
-                        <input asp-for="Updater" class="form-control" id="Updater" name="Updater" value="@Model.Updater" />
-                        <span asp-validation-for="Updater" class="text-danger"></span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div>
-
-<div>
-    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+        </div>
+    </form>
 </div>
 
 @section Scripts {
@@ -214,6 +205,7 @@
         padding: 8px 20px;
         font-size: 14px;
         margin-right: 10px;
+        color: white;
     }
 
     .btn-primary {
@@ -240,5 +232,14 @@
 
     .text-danger {
         color: #dc3545;
+    }
+
+    a {
+        color: white;
+        text-decoration: none;
+    }
+
+    input {
+        height: 25px;
     }
 </style>

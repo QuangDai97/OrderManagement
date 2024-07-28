@@ -11,6 +11,7 @@ namespace OrderManagement.Controllers
         // GET: Order
         public async Task<IActionResult> Index(string search , DateTime? startDate, DateTime? endDate)
         {
+            // Gọi 1 lần để update data
             //AddDummyData();
             IQueryable<Order> orders = context.Orders.AsQueryable();
 
@@ -38,15 +39,19 @@ namespace OrderManagement.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("OrderNo,OrderDate,DeptCode,CustCode,EmpCode,RequiredDate,CustOrderNo,WhCode,CmpTax,SlipComment")] Order order)
         {
-            //if (ModelState.IsValid)
-            //{
-                context.Add(order);
-                await context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            //}
-            return View(order);
-        }
+            // Kiểm tra nếu OrderNo đã tồn tại
+            var existingOrder = await context.Orders.FirstOrDefaultAsync(o => o.OrderNo == order.OrderNo);
+            if (existingOrder != null)
+            {
+                ModelState.AddModelError("OrderNo", "OrderNo đã tồn tại. Vui lòng nhập OrderNo khác.");
+                return View(order);
+            }
 
+            context.Add(order);
+            await context.SaveChangesAsync();
+            TempData["SuccessMessage"] = "Order created successfully!";
+            return RedirectToAction(nameof(Index));
+        }
         // GET: Order/Edit/5
         public async Task<IActionResult> Edit(string id)
         {
@@ -173,9 +178,9 @@ namespace OrderManagement.Controllers
         {
             return context.Orders.Any(e => e.OrderNo == id);
         }
-        
 
-void AddDummyData()
+
+        void AddDummyData()
 {
             // Tạo và thêm các đối tượng Order vào cơ sở dữ liệu
             var orders = new List<Order>
@@ -271,8 +276,6 @@ void AddDummyData()
             }
         }
     };
-
-    // Thêm các đối tượng vào DbSet và lưu vào cơ sở dữ liệu
     context.Orders.AddRange(orders);
     context.SaveChanges();
 }
